@@ -17,8 +17,11 @@ public class NotesApplication {
 
         NoteServiceImpl service = context.getBean(NoteServiceImpl.class);
 
-        System.out.println("add = " + service.add(new Note("Birthday", "Inna 22.10")));
-        System.out.println("add = " + service.add(new Note("Birthday", "Lena 10.12")));
+        service.add(new Note("Birthday", "Inna 22.10"));
+        service.add(new Note("Birthday", "Lena 10.12"));
+        service.add(new Note("Birthday", "Anna 11.05"));
+        service.add(new Note("Lesson", "Math 15.03 14:30"));
+        service.add(new Note("Lesson", "Math 19.03 14:30"));
 
         System.out.println("getById(1) = " + service.getById(1L));
         //System.out.println("getById(5) = " + service.getById(5L));
@@ -26,7 +29,7 @@ public class NotesApplication {
         service.update(new Note(2L, "Wedding", "Lena 10.12"));
         //service.update(new Note(5L, "Wedding", "Lena 10.12"));
 
-        service.deleteById(1L);
+        //service.deleteById(1L);
 
         List<Note> notes = service.listAll();
         for (Note note : notes) {

@@ -5,18 +5,18 @@ import lombok.Data;
 @Data
 public class Note {
     private long id;
-    private final String title;
-    private final String context;
+    private String title;
+    private String content;
 
-    public Note(String title, String context) {
+    public Note(String title, String content) {
         this.title = title;
-        this.context = context;
+        this.content = content;
         this.id = 0;
     }
 
-    public Note(long id, String title, String context) {
+    public Note(long id, String title, String content) {
         this.id = id;
         this.title = title;
-        this.context = context;
+        this.content = content;
     }
 }
