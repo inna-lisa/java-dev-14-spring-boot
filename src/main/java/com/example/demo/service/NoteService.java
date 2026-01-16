@@ -7,11 +7,11 @@ public interface NoteService {
 
     Note add(Note note);
 
-    Note getById(long id);
+    Note getById(Long id);
 
     List<Note> listAll();
 
     void update(Note note);
 
-    void deleteById(long id);
+    void deleteById(Long id);
 }

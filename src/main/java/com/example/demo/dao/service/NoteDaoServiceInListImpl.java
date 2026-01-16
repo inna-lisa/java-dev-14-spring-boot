@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@Profile("memory")
 public class NoteDaoServiceInListImpl implements NoteDaoService {
 
     private final Map<Long, Note> noteMemory = new HashMap<>();
@@ -17,7 +19,7 @@ public class NoteDaoServiceInListImpl implements NoteDaoService {
 
     @Override
     public Note add(final Note note) {
-        if (note.getId() == 0) {
+        if (note.getId() == null) {
             note.setId(idGenerator.getAndIncrement());
         }
         noteMemory.put(note.getId(), note);
@@ -25,9 +27,9 @@ public class NoteDaoServiceInListImpl implements NoteDaoService {
     }
 
     @Override
-    public Note getById(long id) {
-        for (long l : noteMemory.keySet()) {
-            if (l == id) {
+    public Note getById(Long id) {
+        for (Long l : noteMemory.keySet()) {
+            if (l.equals(id)) {
                 return noteMemory.get(id);
             }
         }
@@ -41,8 +43,8 @@ public class NoteDaoServiceInListImpl implements NoteDaoService {
 
     @Override
     public void update(final Note note) {
-        for (long l : noteMemory.keySet()) {
-            if (l == note.getId()) {
+        for (Long l : noteMemory.keySet()) {
+            if (l.equals(note.getId())) {
                 noteMemory.replace(l, note);
                 break;
             }
@@ -50,9 +52,9 @@ public class NoteDaoServiceInListImpl implements NoteDaoService {
     }
 
     @Override
-    public void deleteById(long id) {
-        for (long l : noteMemory.keySet()) {
-            if (l == id) {
+    public void deleteById(Long id) {
+        for (Long l : noteMemory.keySet()) {
+            if (l.equals(id)) {
                 noteMemory.remove(id);
                 break;
             }
