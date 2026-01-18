@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.Note;
 import com.example.demo.service.NoteService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +22,12 @@ public class NoteController {
     }
 
     @GetMapping("/list")
-    public String listNotes(Model model) {
+    public String listNotes(Model model, HttpSession session) {
+        String errorMessage = (String) session.getAttribute("errorMessage");
+        if (errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+            session.removeAttribute("errorMessage");
+        }
         model.addAttribute("notes", noteService.listAll());
         return "note/list";
     }

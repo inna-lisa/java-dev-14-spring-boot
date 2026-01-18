@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -8,6 +8,8 @@
     <title>Note List</title>
 </head>
 <body>
+    <p th:if="${errorMessage}"
+    th:text="${errorMessage}"></p>
     <h1 style="color: blue;">***Note list***</h1>
     <table border="1" cellpadding="10">
         <tr>
@@ -19,6 +21,7 @@
             <td th:text="${note.title}">Title</td>
             <td th:text="${note.content}">Content</td>
             <td>
+<!--            <td sec:authorize="hasRole('ADMIN')">-->
                 <form th:action="@{/note/delete}" method="post" style="display:inline;">
                     <input type="hidden" name="id" th:value="${note.id}"/>
                     <button type="submit">Delete</button>
@@ -30,5 +33,10 @@
             </td>
         </tr>
     </table>
+    <br>
+    <br>
+<form th:action="@{/logout}" method="post">
+    <button type="submit" style="front-size:20px; padding:10px">LOGOUT</button>
+</form>
 </body>
 </html>
