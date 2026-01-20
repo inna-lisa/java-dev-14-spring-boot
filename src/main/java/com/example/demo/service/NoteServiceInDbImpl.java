@@ -33,15 +33,14 @@ public class NoteServiceInDbImpl implements NoteService {
 
     @Override
     public void update(Note note) {
-        if (noteRepository.existsById(note.getId())) {
-            noteRepository.save(note);
-        }
+        noteRepository.findById(note.getId()).orElseThrow(() -> new NoteNotFoundExeption(note.getId()));
+
+        noteRepository.save(note);
     }
 
     @Override
     public void deleteById(Long id) {
-        if (noteRepository.existsById(id)) {
-            noteRepository.deleteById(id);
-        }
+        noteRepository.findById(id).orElseThrow(() -> new NoteNotFoundExeption(id));
+        noteRepository.deleteById(id);
     }
 }

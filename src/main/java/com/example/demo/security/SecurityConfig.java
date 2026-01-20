@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +23,7 @@ public class SecurityConfig {
         httpSecurity.authorizeHttpRequests(auth -> auth
                         //h2 without authorization
                         .requestMatchers("/h2-console/**").permitAll()
+                        .requestMatchers("/api/**").permitAll()
                         //list only for authorization
                         .requestMatchers("/note/list").hasAnyRole("USER", "ADMIN")
                         //"edit" and "delete" only for ROLE_ADMIN
@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .formLogin(form -> form.defaultSuccessUrl("/note/list", true))
                 .logout(Customizer.withDefaults())
                 .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler()));
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
+        httpSecurity.csrf(csrf -> csrf.ignoringRequestMatchers("/api/**", "/h2-console/**"));
         httpSecurity.headers(headers -> headers
                 .frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
 
